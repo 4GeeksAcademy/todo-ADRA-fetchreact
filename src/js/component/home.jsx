@@ -19,7 +19,7 @@ const Home = () => {
 
     return (
         <div className="container input-group mb-3 w-50">
-            <h1 className="d-flex justify-content-center align-items-center mt-5 mb-2 m-auto">
+            <h1 className="d-flex justify-content-center align-items-center mt-5 mb-2">
                 TODO LIST
             </h1>
             <div className="FormList d-flex flex-column justify-content-center align-items-center mb-1">
@@ -52,7 +52,7 @@ const Home = () => {
                         id="button-addon2"
                         onClick={addTask}
                     >
-                        <i class="fa-solid fa-plus"></i>
+                        <i className="fa-solid fa-plus"></i>
                     </button>
                 </form>
                 <ul
@@ -67,16 +67,20 @@ const Home = () => {
                         >
                             {item}
                             <i
-                                className="fa-solid fa-trash"
+                                className="fa-solid fa-trash btn btn-outline-secondary"
                                 onClick={() => deleteTask(index)}
                                 style={{ cursor: "pointer" }}
                             ></i>
                         </li>
                     ))}
                 </ul>
-            </div>
-            <div id="howManyTasks" className="ms-5">
-                {todoList.length} {todoList.length === 1 ? "task" : "tasks"}
+                <div
+                    id="howManyTasks"
+                    className="d-flex justify-content-start align-items-start"
+                    style={{ width: "778px" }}
+                >
+                    {todoList.length} {todoList.length === 1 ? "task" : "tasks"}
+                </div>
             </div>
         </div>
     );

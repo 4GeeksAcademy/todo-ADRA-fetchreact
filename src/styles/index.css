@@ -1,3 +1,14 @@
+body {
+    background: url(https://img.freepik.com/free-photo/flat-lay-concept-clipboard_23-2148102731.jpg);
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    width: 778px;
+}
+
 #todoListForm {
     width: 778px;
 }
