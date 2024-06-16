@@ -1,6 +1,8 @@
 body {
-    background: url(https://img.freepik.com/free-photo/flat-lay-concept-clipboard_23-2148102731.jpg);
-    height: 100vh;
+    background: url(http://cil.com.ve/4geeks/img/todolist-bg.jpg) center center
+        fixed;
+    background-size: cover;
+    height: 100%;
     width: 100%;
     background-repeat: no-repeat;
 }

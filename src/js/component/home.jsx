@@ -74,13 +74,16 @@ const Home = () => {
                         </li>
                     ))}
                 </ul>
-                <div
-                    id="howManyTasks"
-                    className="d-flex justify-content-start align-items-start"
-                    style={{ width: "778px" }}
-                >
-                    {todoList.length} {todoList.length === 1 ? "task" : "tasks"}
-                </div>
+                <strong>
+                    <div
+                        id="howManyTasks"
+                        className="d-flex justify-content-start align-items-start"
+                        style={{ width: "778px" }}
+                    >
+                        {todoList.length}{" "}
+                        {todoList.length === 1 ? "task" : "tasks"}
+                    </div>
+                </strong>
             </div>
         </div>
     );
