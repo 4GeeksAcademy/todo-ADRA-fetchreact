@@ -18,10 +18,7 @@ const Home = () => {
     };
 
     return (
-        <div className="container input-group mb-3 w-50">
-            <h1 className="d-flex justify-content-center align-items-center mt-5 mb-2 m-auto">
-                TODO LIST
-            </h1>
+        <div className="container mt-5 input-group mb-3 w-50">
             <div className="FormList d-flex flex-column justify-content-center align-items-center mb-1">
                 <form
                     id="todoListForm"
@@ -75,7 +72,7 @@ const Home = () => {
                     ))}
                 </ul>
             </div>
-            <div id="howManyTasks" className="ms-5">
+            <div id="howManyTasks" className="text-end">
                 {todoList.length} {todoList.length === 1 ? "task" : "tasks"}
             </div>
         </div>
