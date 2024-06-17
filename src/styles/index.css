@@ -14,3 +14,11 @@ h1 {
 #todoListForm {
     width: 778px;
 }
+
+.fa-trash {
+    visibility: hidden;
+}
+
+.list-group-item:hover .fa-trash {
+    visibility: visible;
+}
