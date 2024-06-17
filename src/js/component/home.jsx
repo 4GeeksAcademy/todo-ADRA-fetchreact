@@ -7,7 +7,7 @@ const Home = () => {
 
     const addTask = () => {
         if (inputValue.trim() !== "") {
-            setTodoList([...todoList, inputValue]);
+            setTodoList((preState) => [...preState, inputValue]);
             setInputValue("");
         }
     };
