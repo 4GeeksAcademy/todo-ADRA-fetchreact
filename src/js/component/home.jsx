@@ -63,7 +63,7 @@ const Home = () => {
                     {todoList.map((item, index) => (
                         <li
                             key={index}
-                            className="d-flex justify-content-between align-items-center"
+                            className="lis-group-item d-flex justify-content-between align-items-center"
                         >
                             {item}
                             <i
