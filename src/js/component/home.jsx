@@ -10,43 +10,115 @@ const Home = () => {
     }, []);
 
     async function getTask() {
-        const response = await fetch(
-            "https://playground.4geeks.com/todo/users/kinnetik0"
-        );
-        const data = await response.json();
-        setTodoList(data.todos);
+        try {
+            const response = await fetch(
+                "https://playground.4geeks.com/todo/users/kinnetik0"
+            );
+            if (!response.ok) {
+                if (response.status === 404) {
+                    await createUser();
+                    await getTask(); // Retry getting tasks after creating user
+                } else {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+            } else {
+                const data = await response.json();
+                setTodoList(data.todos);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    async function addTodo(e) {
-        if (inputValue.trim() !== "") {
+    async function createUser() {
+        try {
             const response = await fetch(
-                "https://playground.4geeks.com/todo/todos/kinnetik0",
+                "https://playground.4geeks.com/todo/users/kinnetik0",
                 {
                     method: "POST",
                     headers: {
-                        accept: "application/jason",
-                        "Content-type": "application/json",
+                        accept: "application/json",
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        label: inputValue,
-                        is_done: false,
-                    }),
+                    body: JSON.stringify([]), // Enviar un array vacío para crear el usuario
                 }
             );
-            if (response.ok) {
-                setInputValue("");
-                getTask();
+            if (!response.ok) {
+                throw new Error(`Error creating user: ${response.statusText}`);
             }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function addTodo(e) {
+        try {
+            if (inputValue.trim() !== "") {
+                const response = await fetch(
+                    "https://playground.4geeks.com/todo/todos/kinnetik0",
+                    {
+                        method: "POST",
+                        headers: {
+                            accept: "application/jason",
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            label: inputValue,
+                            is_done: false,
+                        }),
+                    }
+                );
+                if (response.ok) {
+                    setInputValue("");
+                    getTask();
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     async function deleteTask(id) {
-        const response = await fetch(
-            `https://playground.4geeks.com/todo/todos/${id}`,
-            { method: "DELETE" }
-        );
-        if (response.ok) {
+        try {
+            const response = await fetch(
+                `https://playground.4geeks.com/todo/todos/${id}`,
+                { method: "DELETE" }
+            );
+            if (response.ok) {
+                getTask();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function deleteAll() {
+        try {
+            const promises = todoList.map((item) => {
+                return fetch(
+                    `https://playground.4geeks.com/todo/todos/${item.id}`,
+                    {
+                        method: "DELETE",
+                    }
+                ).then((resp) => {
+                    if (!resp.ok || resp.status !== 204) {
+                        throw new Error(
+                            `Error deleting item with id ${item.id}: ${resp.statusText}`
+                        );
+                    }
+                    return resp;
+                });
+            });
+
+            const responses = await Promise.all(promises);
+            responses.forEach((resp) => {
+                console.log(`Deleted item with status: ${resp.status}`);
+            });
             getTask();
+
+            console.log("All items deleted successfully");
+        } catch (error) {
+            console.error("Error in deleteAll:", error);
         }
     }
 
@@ -117,6 +189,15 @@ const Home = () => {
                         {todoList.length === 1 ? "task" : "tasks"}
                     </div>
                 </strong>
+            </div>
+            <div className="deleteAll d-flex justify-content-center aling-content-center">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    onClick={() => deleteAll()}
+                >
+                    Borrar Todo
+                </button>
             </div>
         </div>
     );

@@ -15,6 +15,11 @@ h1 {
     width: 778px;
 }
 
+.deleteAll {
+    width: 778px !important;
+    margin: 0 auto !important;
+}
+
 .fa-trash {
     visibility: hidden;
 }
