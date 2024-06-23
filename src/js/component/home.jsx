@@ -103,7 +103,7 @@ const Home = () => {
                 ).then((resp) => {
                     if (!resp.ok || resp.status !== 204) {
                         throw new Error(
-                            `Error deleting item with id ${item.id}: ${resp.statusText}`
+                            `Error deleting item with id ${item.id}`
                         );
                     }
                     return resp;
