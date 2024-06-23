@@ -1,21 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //create your first component
 const Home = () => {
     const [inputValue, setInputValue] = useState("");
     const [todoList, setTodoList] = useState([]);
 
-    const addTask = () => {
-        if (inputValue.trim() !== "") {
-            setTodoList((preState) => [...preState, inputValue]);
-            setInputValue("");
-        }
-    };
+    useEffect(() => {
+        getTask();
+    }, []);
 
-    const deleteTask = (index) => {
-        const newList = todoList.filter((_, i) => i !== index);
-        setTodoList(newList);
-    };
+    async function getTask() {
+        const response = await fetch(
+            "https://playground.4geeks.com/todo/users/kinnetik0"
+        );
+        const data = await response.json();
+        setTodoList(data.todos);
+    }
+
+    async function addTodo(e) {
+        if (inputValue.trim() !== "") {
+            const response = await fetch(
+                "https://playground.4geeks.com/todo/todos/kinnetik0",
+                {
+                    method: "POST",
+                    headers: {
+                        accept: "application/jason",
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        label: inputValue,
+                        is_done: false,
+                    }),
+                }
+            );
+            if (response.ok) {
+                setInputValue("");
+                getTask();
+            }
+        }
+    }
+
+    async function deleteTask(id) {
+        const response = await fetch(
+            `https://playground.4geeks.com/todo/todos/${id}`,
+            { method: "DELETE" }
+        );
+        if (response.ok) {
+            getTask();
+        }
+    }
 
     return (
         <div className="container input-group mb-3 w-50">
@@ -38,7 +71,7 @@ const Home = () => {
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 e.preventDefault();
-                                addTask();
+                                addTodo();
                             }
                         }}
                         placeholder="Add a new task"
@@ -50,7 +83,7 @@ const Home = () => {
                         className="btn btn-outline-secondary"
                         type="button"
                         id="button-addon2"
-                        onClick={addTask}
+                        onClick={addTodo}
                     >
                         <i className="fa-solid fa-plus"></i>
                     </button>
@@ -65,10 +98,10 @@ const Home = () => {
                             key={index}
                             className="list-group-item d-flex justify-content-between align-items-center"
                         >
-                            {item}
+                            {item.label}
                             <i
                                 className="fa-solid fa-trash btn btn-outline-secondary"
-                                onClick={() => deleteTask(index)}
+                                onClick={() => deleteTask(item.id)}
                                 style={{ cursor: "pointer" }}
                             ></i>
                         </li>
