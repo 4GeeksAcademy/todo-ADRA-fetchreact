@@ -196,7 +196,7 @@ const Home = () => {
                     class="btn btn-danger"
                     onClick={() => deleteAll()}
                 >
-                    Borrar Todo
+                    Delete All
                 </button>
             </div>
         </div>
